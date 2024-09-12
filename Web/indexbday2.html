@@ -10,18 +10,35 @@
 </head>
 <body>
 <!-- partial:index.partial.html -->
-<!-- A pen by Developer Rahul  -->
+<!-- A pen by Developer Vedant -->
 
 <div class="Nextsurp"></div>
   <div class="paper image">
-    <p> Dil le liyaa naa 🙄<br>Ab click kroo niche dil ko ,
+    <p> Aao tumhe dil k andar ghumma k lata  🙃🙃<br> click kroo niche dil ko ,
       <br>dekho humare dil me kya hai to ❤ </p>
-  <p><a href="indexluv.html"> .         ❤       .</a></p>
+    
+  </div>
+
+  <!-- Button to remove elements and redirect -->
+  <button id="removeAndRedirect"> <b>❤</b> </button>
+
+  <script>
+    document.getElementById('removeAndRedirect').addEventListener('click', function() {
+      // Remove specific elements
+      document.querySelector('.Nextsurp').remove();
+      const paperImage = document.querySelector('.paper.image');
+      if (paperImage) {
+        paperImage.remove();
+      }
+      
+      // Redirect to the new page
+      window.location.href = 'indexluv.html'; // Change to your desired URL
+    });
+  </script>
 
 
 </div>
-<div class="paper heart">
-  </div>
+
 <div class="paper image">
   <p> I Miss you Ji <br>
     Kaali Saari wali..🤭
