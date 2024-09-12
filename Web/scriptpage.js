@@ -1,82 +1,65 @@
-let highestZ = 1;
+function makeDraggable(paper) {
+  let shiftX, shiftY;
 
-class Paper {
-  holdingPaper = false;
-  mouseTouchX = 0;
-  mouseTouchY = 0;
-  mouseX = 0;
-  mouseY = 0;
-  prevMouseX = 0;
-  prevMouseY = 0;
-  velX = 0;
-  velY = 0;
-  rotation = Math.random() * 30 - 15;
-  currentPaperX = 0;
-  currentPaperY = 0;
-  rotating = false;
-
-  init(paper) {
-    document.addEventListener('mousemove', (e) => {
-      if(!this.rotating) {
-        this.mouseX = e.clientX;
-        this.mouseY = e.clientY;
-        
-        this.velX = this.mouseX - this.prevMouseX;
-        this.velY = this.mouseY - this.prevMouseY;
-      }
-        
-      const dirX = e.clientX - this.mouseTouchX;
-      const dirY = e.clientY - this.mouseTouchY;
-      const dirLength = Math.sqrt(dirX*dirX+dirY*dirY);
-      const dirNormalizedX = dirX / dirLength;
-      const dirNormalizedY = dirY / dirLength;
-
-      const angle = Math.atan2(dirNormalizedY, dirNormalizedX);
-      let degrees = 180 * angle / Math.PI;
-      degrees = (360 + Math.round(degrees)) % 360;
-      if(this.rotating) {
-        this.rotation = degrees;
-      }
-
-      if(this.holdingPaper) {
-        if(!this.rotating) {
-          this.currentPaperX += this.velX;
-          this.currentPaperY += this.velY;
-        }
-        this.prevMouseX = this.mouseX;
-        this.prevMouseY = this.mouseY;
-
-        paper.style.transform = `translateX(${this.currentPaperX}px) translateY(${this.currentPaperY}px) rotateZ(${this.rotation}deg)`;
-      }
-    })
-
-    paper.addEventListener('mousedown', (e) => {
-      if(this.holdingPaper) return; 
-      this.holdingPaper = true;
-      
-      paper.style.zIndex = highestZ;
-      highestZ += 1;
-      
-      if(e.button === 0) {
-        this.mouseTouchX = this.mouseX;
-        this.mouseTouchY = this.mouseY;
-        this.prevMouseX = this.mouseX;
-        this.prevMouseY = this.mouseY;
-      }
-      if(e.button === 2) {
-        this.rotating = true;
-      }
-    });
-    window.addEventListener('mouseup', () => {
-      this.holdingPaper = false;
-      this.rotating = false;
-    });
+  function moveAt(pageX, pageY) {
+    paper.style.left = pageX - shiftX + 'px';
+    paper.style.top = pageY - shiftY + 'px';
   }
+
+  function onMouseMove(event) {
+    moveAt(event.pageX, event.pageY);
+  }
+
+  function onTouchMove(event) {
+    moveAt(event.touches[0].pageX, event.touches[0].pageY);
+  }
+
+  function removeBlur() {
+    if (paper.classList.contains('image')) {
+      const img = paper.querySelector('img');
+      if (img) {
+        img.style.filter = 'none'; // Remove the blur effect
+      }
+    }
+  }
+
+  function onMouseDown(event) {
+    event.preventDefault();
+    removeBlur();
+    shiftX = event.clientX - paper.getBoundingClientRect().left;
+    shiftY = event.clientY - paper.getBoundingClientRect().top;
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+  }
+
+  function onTouchStart(event) {
+    event.preventDefault();
+    removeBlur();
+    shiftX = event.touches[0].clientX - paper.getBoundingClientRect().left;
+    shiftY = event.touches[0].clientY - paper.getBoundingClientRect().top;
+
+    document.addEventListener('touchmove', onTouchMove);
+    document.addEventListener('touchend', onTouchEnd);
+  }
+
+  function onMouseUp() {
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+  }
+
+  function onTouchEnd() {
+    document.removeEventListener('touchmove', onTouchMove);
+    document.removeEventListener('touchend', onTouchEnd);
+  }
+
+  paper.addEventListener('mousedown', onMouseDown);
+  paper.addEventListener('touchstart', onTouchStart);
+
+  paper.ondragstart = function () {
+    return false;
+  };
 }
 
-const papers = Array.from(document.querySelectorAll('.paper'));
-
-papers.forEach(paper => {
-  const p = new Paper();
-  p.init(paper);
-});
+// Initialize draggable function for all papers
+document.querySelectorAll('.paper').forEach(paper => makeDraggable(paper));
