@@ -1,103 +1,79 @@
+
 body {
- 
-  background-image: url(/backblack.jpg);
-  background-size: cover;
-
-  background-repeat: no-repeat;
-  font-size: 14px;
-  font-family: sans-serif;
-  color: white;
-  overflow: auto;
-  width:auto;
-}
-
-
-a {
-  color: white;
-  font-size: 14px;
-}
-#main {
-  width: 100%;
-}
-
-#wrap {
-  position: relative;
-  margin: 0 auto;
-  width: 1100px;
-  height: 680px;
-  margin-top: 10px;
-}
-#text {
-  width: 272px;
-  height: 560px;
-  left: 188px;
-  top: 80px;
-  position: absolute;
-}
-#code {
-  display: none;
-  color: rgb(196, 255, 255);
-  font-size: 16px;
-  margin-top: 70px;
-  line-height: 25px;
-  font-size: larger;
-  font-weight: bolder;
-}
-#clock-box {
-  position: absolute;
-  left: 60px;
-  top: 550px;
-  font-size: 28px;
-  display: none;
-}
-#clock-box a {
-  font-size: 28px;
-  text-decoration: none;
-}
-#clock {
-  margin-left: 48px;
-}
-#clock .digit {
-  font-size: 64px;
-}
-#canvas {
-  margin: 0 auto;
-  width: 1100px;
-  height: 680px;
-}
-#error {
-  margin: 0 auto;
-  text-align: center;
-  margin-top: 60px;
-  display: none;
-}
-.hand {
-  cursor: pointer;
-}
-.say {
-  margin-left: 5px;
-}
-.space {
-  margin-right: 150px;
-}
-
-#message-box{
-  position: absolute;
-  margin-top:450px;
-  font-size: 25px;
-  font-family: monospace;
-
-}
-
-
-#penwork {
-  height: 100vh;
+  background-color: #f7f0e7;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background-size: 1000px;
-  background-image: url("/bg.jpg");
-  background-position: center center;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Open Sans', sans-serif;
+  overflow: hidden;
+  margin: 0;
+  padding: 0;
+  background-image: url('./bg.jpg');
 }
 
+.paper {
+  width: 80%;
+  max-width: 300px;
+  height: auto;
+  padding: 15px;
+  margin: 10px;
+  background: #fff;
+  border: 2px solid #f0d4d4;
+  border-radius: 8px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  cursor: grab;
+  user-select: none;
+  text-align: center;
+  font-size: 18px;
+  transition: transform 0.3s ease;
+  background-image: url('./paper.jpg');
+  touch-action: none; /* Prevents default touch actions like scrolling */
+}
+
+.paper img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+.paper.image img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  filter: blur(8px); /* Apply an initial 80% blur */
+  transition: filter 0.5s ease; /* Smooth transition for removing the blur */
+}
+
+.paper.heart {
+  width: 100px; /* Set the width of the square */
+  height: 100px; /* Set the height of the square */
+  background-image: url('./heart.png'); /* Path to your own image */
+  background-size: cover; /* Ensures the image covers the entire square */
+  background-position: center; /* Centers the image */
+  border: none; /* Removes any border */
+  border-radius: 0; /* Ensures the shape is a square */
+  position: absolute; /* Keeps it positioned like the other draggable elements */
+  cursor: grab; /* Indicates that the element can be dragged */
+}
+
+.paper.red {
+  background: #f8d7da;
+}
+
+.p1 {
+  font-family: 'Short Stack', cursive;
+}
+
+@media (max-width: 768px) {
+  .paper {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .paper {
+    font-size: 14px;
+  }
+}
