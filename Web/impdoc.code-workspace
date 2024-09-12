@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"path": ".impdoc"
+		}
+	],
+	"settings": {
+		"liveServer.settings.port": 5501,
+		"liveServer.settings.multiRootWorkspaceName": "impdoc"
+	}
+}
